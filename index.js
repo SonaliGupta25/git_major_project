@@ -2,12 +2,20 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const port = 8002;
+const cookieParser = require('cookie-parser');
 
 
 const expressLayouts = require('express-ejs-layouts');
+const db = require('./config/mongoose');
+
+app.use(express.urlencoded());
+app.use(cookieParser());
+
 
 app.use(express.static('assests'));
 app.use(expressLayouts);
+app.set('layouts extractStyles',true);
+app.set('layouts extractScripts',true);
 
 // use express router
 app.use('/', require('./routes'));
