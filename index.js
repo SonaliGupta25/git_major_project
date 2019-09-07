@@ -3,32 +3,21 @@ const path = require('path');
 const app = express();
 const port = 8002;
 
+
+const expressLayouts = require('express-ejs-layouts');
+
+app.use(express.static('assests'));
+app.use(expressLayouts);
+
 // use express router
 app.use('/', require('./routes'));
-app.use(express.static('assests'));
+
 
 app.set('view engine','ejs');
 //app.set('views','./views');
-
 app.set('views',path.join(__dirname,'views'));
 
-var todoList = [
-    {
-        description: "Why not add a task",
-        date : "MAY 2,2019",
-        category: ""
-    },
-    {
-        description: "Let's Make a TODO App",
-        date : "APR 28,2019",
-        category: "SCHOOL"
-    },
-    {
-        description: "Annual report submission deadline",
-        date : "JUN 1,2019",
-        category: "WORK"
-    }
-]
+
 
 app.get('/',function(req, res){
       
