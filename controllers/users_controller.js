@@ -3,10 +3,26 @@ const User = require('../models/user');
 
 module.exports.profile = function(req, res){
    // return res.end('<h1>Users Profile</h1>');
-   return res.render('user_profile',{
-       title: 'Users'
+   User.findById(req.params.id, function(err, user){
+    return res.render('user_profile',{
+        title: 'Users',
+        profile_user: user
+    });
    });
-};
+   
+}
+
+module.exports.update = function(req, res){
+
+   if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            return res.redirect('back');
+        });
+    }
+        else{
+            return res.status(401).send('Unauthorized');        
+    }
+}
 
 module.exports.signUp = function(req, res){
 
@@ -47,7 +63,7 @@ module.exports.create = function(req, res){
         return res.redirect('back');
     }
 
-    console.log('here aa gya ') ;
+   
 
     User.findOne({email: req.body.email}, function(err, user){
         if(err){
@@ -63,7 +79,7 @@ module.exports.create = function(req, res){
                     }
 
 
-                 console.log('**************************8ban gya bhai');
+                 
                  console.log(user) ;   
 
                 return res.redirect('/users/sign-in');
